@@ -11,3 +11,5 @@ public class Stockapiv1Application {
 	}
 
 }
+
+//24:00 in walk-through video
