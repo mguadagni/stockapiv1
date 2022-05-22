@@ -1,13 +1,14 @@
 package com.careerdevs.stockapiv1.controllers;
 
+import com.careerdevs.stockapiv1.utils.ApiErrorHandling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/overview")
@@ -25,32 +26,44 @@ public class OverviewController {
 
             String url = BASE_URL + "&symbol=IBM&apikey=demo";
 
-            String responseBody = restTemplate.getForObject(url, String.class);
+            String alphaVantageResponse = restTemplate.getForObject(url, String.class);
 
-            return ResponseEntity.ok(responseBody);
+            return ResponseEntity.ok(alphaVantageResponse);
 
         } catch (Exception e) {
 
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ApiErrorHandling.genericApiError(e);
 
         }
 
     }
 
     @GetMapping("/{symbol}")
-    public ResponseEntity<?> dynamicOverview (RestTemplate restTemplate, @PathVariable String symbol) {
+    public ResponseEntity<?> getOverviewBySymbol (RestTemplate restTemplate, @PathVariable String symbol) {
 
         try {
 
             String url = BASE_URL + "&symbol=" + symbol + "&apikey=" + env.getProperty("AV_API_KEY");
 
-            String responseBody = restTemplate.getForObject(url, String.class);
+            String alphaVantageResponse = restTemplate.getForObject(url, String.class);
 
-            return ResponseEntity.ok(responseBody);
+            if (alphaVantageResponse == null) {
+
+                return ApiErrorHandling.customApiError("Did not receive response",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+
+            } else if (alphaVantageResponse.equals("{}")) {
+
+                return ApiErrorHandling.customApiError("Invalid Stock Symbol: " + symbol,
+                        HttpStatus.BAD_REQUEST);
+
+            }
+
+            return ResponseEntity.ok(alphaVantageResponse);
 
         } catch (Exception e) {
 
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ApiErrorHandling.genericApiError(e);
 
         }
 
