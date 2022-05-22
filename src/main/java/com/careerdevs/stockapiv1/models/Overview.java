@@ -10,6 +10,6 @@ public class Overview {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
 
-    //62:00
+    //62:00 -
 
 }
