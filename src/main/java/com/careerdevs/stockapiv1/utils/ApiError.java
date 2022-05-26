@@ -2,8 +2,11 @@ package com.careerdevs.stockapiv1.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 
-public class ApiErrorHandling {
+import java.net.http.HttpClient;
+
+public class ApiError {
 
     public static ResponseEntity<?> genericApiError (Exception e) {
 
@@ -13,9 +16,15 @@ public class ApiErrorHandling {
 
     }
 
-    public static ResponseEntity<?> customApiError (String message, HttpStatus status)  {
+    public static ResponseEntity<?> customApiError (String message, int status)  {
 
         return ResponseEntity.status(status).body(message);
+
+    }
+
+    public static void throwError (int status, String message) throws HttpClientErrorException {
+
+        throw new HttpClientErrorException(HttpStatus.valueOf(status), message);
 
     }
 
