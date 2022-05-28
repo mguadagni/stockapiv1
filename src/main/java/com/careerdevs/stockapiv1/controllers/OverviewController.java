@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,72 +25,6 @@ public class OverviewController {
     private OverviewRepository overviewRepository;
 
     private final String BASE_URL = "https://www.alphavantage.co/query?function=OVERVIEW";
-
-    @GetMapping("/test")
-    public ResponseEntity<?> testOverview (RestTemplate restTemplate) {
-
-        try {
-
-            String url = BASE_URL + "&symbol=IBM&apikey=demo";
-
-            Overview alphaVantageResponse = restTemplate.getForObject(url, Overview.class);
-
-            return ResponseEntity.ok(alphaVantageResponse);
-
-        } catch (Exception e) {
-
-            return ApiError.genericApiError(e);
-
-        }
-
-    }
-
-    @PostMapping("/test")
-    public ResponseEntity<?> testUploadOverview (RestTemplate restTemplate) {
-
-        try {
-
-            String url = BASE_URL + "&symbol=IBM&apikey=demo";
-
-            Overview alphaVantageResponse = restTemplate.getForObject(url, Overview.class);
-
-            if (alphaVantageResponse == null) {
-
-                ApiError.throwError(500, "Did not receive response from AV");
-
-            } else if (alphaVantageResponse.getSymbol() == null) {
-
-                ApiError.throwError(500, "No Data Retrieved From AV");
-
-            }
-
-            Overview savedOverview = overviewRepository.save(alphaVantageResponse);
-
-            return ResponseEntity.ok(savedOverview);
-
-        } catch (HttpClientErrorException e) {
-
-            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
-
-        } catch(DataIntegrityViolationException e) {
-
-            return ApiError.customApiError("Can not upload duplicate Stock data",
-                    400);
-
-        } catch (IllegalArgumentException e) {
-
-            return ApiError.customApiError(
-                    "Error in testOverview: Check URL used for AV Request",
-                    500
-            );
-
-        } catch (Exception e) {
-
-            return ApiError.genericApiError(e);
-
-        }
-
-    }
 
     @GetMapping("/{symbol}")
     public ResponseEntity<?> getOverviewBySymbol (RestTemplate restTemplate, @PathVariable String symbol) {
@@ -207,6 +142,60 @@ public class OverviewController {
         } catch (NumberFormatException e) {
 
             return ApiError.customApiError("Invalid ID: Must be a number: " + id, 400);
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
+    @GetMapping("/symbol/{symbol}")
+    private ResponseEntity<?> getOverviewBySymbol (@PathVariable String symbol) {
+
+        try {
+
+            Optional<Overview> foundOverview = overviewRepository.findBySymbol(symbol);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, symbol + "did not match any overview");
+
+            }
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
+    @GetMapping("/exchange/{exchange}")
+    private ResponseEntity<?> getOverviewByExchange (@PathVariable String exchange) {
+
+        try {
+
+            List<Overview> foundOverview = overviewRepository.findByExchange(exchange);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, exchange + "did not match any overview");
+
+            }
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
 
         } catch (Exception e) {
 
