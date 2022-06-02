@@ -400,4 +400,33 @@ public class OverviewController {
 
     }
 
+    @DeleteMapping("/symbol/{symbol}")
+    private ResponseEntity<?> deleteBySymbol (@PathVariable String symbol) {
+
+        try {
+
+            Optional<Overview> foundOverview = overviewRepository.findBySymbol(symbol);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, symbol + " did not match any overview");
+
+            }
+
+            overviewRepository.deleteBySymbol(symbol);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
 }

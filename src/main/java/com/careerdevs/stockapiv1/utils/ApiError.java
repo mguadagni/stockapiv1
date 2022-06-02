@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.net.http.HttpClient;
-
 public class ApiError {
 
     public static ResponseEntity<?> genericApiError (Exception e) {
