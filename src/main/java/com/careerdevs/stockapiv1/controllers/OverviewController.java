@@ -429,4 +429,33 @@ public class OverviewController {
 
     }
 
+    @DeleteMapping("/exchange/{exchange}")
+    private ResponseEntity<?> deleteByExchange (@PathVariable String exchange) {
+
+        try {
+
+            List<Overview> foundOverview = overviewRepository.findByExchange(exchange);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, exchange + " did not match any overview");
+
+            }
+
+            overviewRepository.deleteByExchange(exchange);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
 }

@@ -24,6 +24,8 @@ public interface OverviewRepository extends CrudRepository<Overview, Long> {
 
     public List<Overview> findBySector (String sector);
 
-    public List<Overview> deleteBySymbol(String symbol);
+    public Optional<Overview> deleteBySymbol(String symbol);
+
+    public List<Overview> deleteByExchange (String exchange);
 
 }
