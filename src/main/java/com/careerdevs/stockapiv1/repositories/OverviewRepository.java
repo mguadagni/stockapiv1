@@ -28,4 +28,6 @@ public interface OverviewRepository extends CrudRepository<Overview, Long> {
 
     public List<Overview> deleteByExchange (String exchange);
 
+    public List<Overview> deleteByAssetType (String assetType);
+
 }

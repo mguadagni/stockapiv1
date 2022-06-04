@@ -372,7 +372,7 @@ public class OverviewController {
 
             long overViewId = Long.parseLong(id);
 
-            Optional<Overview> foundOverview = overviewRepository.findById(Long.parseLong(id));
+            Optional<Overview> foundOverview = overviewRepository.findById(overViewId);
 
             if (foundOverview.isEmpty()) {
 
@@ -443,6 +443,35 @@ public class OverviewController {
             }
 
             overviewRepository.deleteByExchange(exchange);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
+    @DeleteMapping("/assetType/{assetType}")
+    private ResponseEntity<?> deleteByAssetType (@PathVariable String assetType) {
+
+        try {
+
+            List<Overview> foundOverview = overviewRepository.findByAssetType(assetType);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, assetType + " did not match any Asset Type");
+
+            }
+
+            overviewRepository.deleteByAssetType(assetType);
 
             return ResponseEntity.ok(foundOverview);
 
