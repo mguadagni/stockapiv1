@@ -487,4 +487,33 @@ public class OverviewController {
 
     }
 
+    @DeleteMapping ("/name/{name}")
+    private ResponseEntity<?> deleteByName (@PathVariable String name) {
+
+        try {
+
+            Optional<Overview> foundOverview = overviewRepository.findByName(name);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, name + " did not match any name");
+
+            }
+
+            overviewRepository.deleteByName(name);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
 }

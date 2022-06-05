@@ -30,4 +30,6 @@ public interface OverviewRepository extends CrudRepository<Overview, Long> {
 
     public List<Overview> deleteByAssetType (String assetType);
 
+    public Optional <Overview> deleteByName (String name);
+
 }
