@@ -516,4 +516,91 @@ public class OverviewController {
 
     }
 
+    @DeleteMapping ("/currency/{currency}")
+    private ResponseEntity<?> deleteByCurrency (@PathVariable String currency) {
+
+        try {
+
+            List<Overview> foundOverview = overviewRepository.findByCurrency(currency);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, currency + " did not match any currency");
+
+            }
+
+            overviewRepository.deleteByCurrency(currency);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e){
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
+    @DeleteMapping ("/country/{country}")
+    private ResponseEntity<?> deleteByCountry (@PathVariable String country) {
+
+        try {
+
+            List<Overview> foundOverview = overviewRepository.findByCountry(country);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, country + " did not match any countries");
+
+            }
+
+            overviewRepository.deleteByCountry(country);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
+    @DeleteMapping ("/sector/{sector}")
+    private ResponseEntity<?> deleteBySector (@PathVariable String sector) {
+
+        try {
+
+            List<Overview> foundOverview = overviewRepository.findBySector(sector);
+
+            if (foundOverview.isEmpty()) {
+
+                ApiError.throwError(404, sector + " did not match any sectors");
+
+            }
+
+            overviewRepository.deleteBySector(sector);
+
+            return ResponseEntity.ok(foundOverview);
+
+        } catch (HttpClientErrorException e) {
+
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+
+        } catch (Exception e) {
+
+            return ApiError.genericApiError(e);
+
+        }
+
+    }
+
 }
