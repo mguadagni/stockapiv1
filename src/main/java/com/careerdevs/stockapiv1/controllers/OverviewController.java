@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//58:46
-
 @RestController
 @RequestMapping("/api/overview")
 public class OverviewController {
@@ -102,7 +100,7 @@ public class OverviewController {
 
     }
 
-    @PostMapping("/testUpload")
+    @PostMapping("/all")
     public ResponseEntity<?> uploadTestOverviews(RestTemplate restTemplate) {
 
         try {
@@ -295,6 +293,10 @@ public class OverviewController {
                 case "name" -> foundOverview = overviewRepository.findByName(value);
                 case "currency" -> foundOverview = overviewRepository.findByCurrency(value);
                 case "country" -> foundOverview = overviewRepository.findByCountry(value);
+                case "marketcapgte" -> foundOverview =
+                        overviewRepository.findByMarketCapGreaterThanEqual(Long.parseLong(value));
+                case "marketcaplte" -> foundOverview =
+                        overviewRepository.findByMarketCapLessThanEqual(Long.parseLong(value));
             }
 
             if (foundOverview == null || foundOverview.isEmpty()) {
@@ -325,10 +327,14 @@ public class OverviewController {
             switch (field) {
                 case "id" -> foundOverview = overviewRepository.deleteById(Long.parseLong(value));
                 case "symbol" -> foundOverview = overviewRepository.deleteBySymbol(value);
-//                case "sector" -> foundOverview = overviewRepository.findBySector(value);
-//                case "name" -> foundOverview = overviewRepository.findByName(value);
-//                case "currency" -> foundOverview = overviewRepository.findByCurrency(value);
-//                case "country" -> foundOverview = overviewRepository.findByCountry(value);
+                case "sector" -> foundOverview = overviewRepository.deleteBySector(value);
+                case "name" -> foundOverview = overviewRepository.deleteByName(value);
+                case "currency" -> foundOverview = overviewRepository.deleteByCurrency(value);
+                case "country" -> foundOverview = overviewRepository.deleteByCountry(value);
+                case "marketcapgte" -> foundOverview =
+                        overviewRepository.deleteByMarketCapGreaterThanEqual(Long.parseLong(value));
+                case "marketcaplte" -> foundOverview =
+                        overviewRepository.deleteByMarketCapLessThanEqual(Long.parseLong(value));
             }
 
             if (foundOverview == null || foundOverview.isEmpty()) {
@@ -348,3 +354,4 @@ public class OverviewController {
     }
 
 }
+//AssetType, Exchange, 52WeekHigh, 52WeekLow, Industry, DividendDate

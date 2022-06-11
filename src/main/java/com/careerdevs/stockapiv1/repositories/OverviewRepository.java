@@ -11,45 +11,24 @@ import java.util.Optional;
 @Transactional
 public interface OverviewRepository extends JpaRepository<Overview, Long> {
 
-    public List<Overview> findById (long id);
-    public List<Overview> findBySymbol (String symbol);
-    public List<Overview> findBySector (String sector);
-    public List<Overview> findByName (String name);
-    public List<Overview> findByCurrency (String currency);
-    public List<Overview> findByCountry (String country);
+    List<Overview> findById (long id);
+    List<Overview> findBySymbol (String symbol);
+    List<Overview> findBySector (String sector);
+    List<Overview> findByName (String name);
+    List<Overview> findByCurrency (String currency);
+    List<Overview> findByCountry (String country);
 
-    public List<Overview> deleteById (long id);
-    public List<Overview> deleteBySymbol (String symbol);
+    List<Overview> findByMarketCapGreaterThanEqual (long marketCap);
+    List<Overview> findByMarketCapLessThanEqual (long marketCap);
+
+    List<Overview> deleteById (long id);
+    List<Overview> deleteBySymbol (String symbol);
+    List<Overview> deleteBySector (String sector);
+    List<Overview> deleteByName (String name);
+    List<Overview> deleteByCurrency (String currency);
+    List<Overview> deleteByCountry (String country);
+
+    List<Overview> deleteByMarketCapGreaterThanEqual (long marketCap);
+    List<Overview> deleteByMarketCapLessThanEqual (long marketCap);
 
 }
-
-
-//**Below code is for OverviewControllerDeprecated class
-
-//    public Optional<Overview> findBySymbol (String symbol);
-//
-//    public Optional<Overview> deleteBySymbol(String symbol);
-//
-//    public List<Overview> findByExchange (String exchange);
-//
-//    public List<Overview> deleteByExchange (String exchange);
-//
-//    public List<Overview> findByAssetType (String assetType);
-//
-//    public List<Overview> deleteByAssetType (String assetType);
-//
-//    public Optional<Overview> findByName (String name);
-//
-//    public Optional <Overview> deleteByName (String name);
-//
-//    public List<Overview> findByCurrency (String currency);
-//
-//    public List<Overview> deleteByCurrency (String currency);
-//
-//    public List<Overview> findByCountry (String country);
-//
-//    public List<Overview> deleteByCountry (String country);
-//
-//    public List<Overview> findBySector (String sector);
-//
-//    public List<Overview> deleteBySector (String sector);
