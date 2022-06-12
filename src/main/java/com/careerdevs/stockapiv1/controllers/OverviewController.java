@@ -284,7 +284,7 @@ public class OverviewController {
 
             List<Overview> foundOverview = null;
 
-            field = field.toLowerCase();
+            //field = field.toLowerCase();
 
             switch (field) {
                 case "id" -> foundOverview = overviewRepository.findById(Long.parseLong(value));
@@ -297,10 +297,20 @@ public class OverviewController {
                         overviewRepository.findByMarketCapGreaterThanEqual(Long.parseLong(value));
                 case "marketcaplte" -> foundOverview =
                         overviewRepository.findByMarketCapLessThanEqual(Long.parseLong(value));
+                case "assetType" -> foundOverview = overviewRepository.findByAssetType(value);
+                case "exchange" -> foundOverview = overviewRepository.findByExchange(value);
+                case "yearhighgte" -> foundOverview =
+                        overviewRepository.findByYearHighGreaterThanEqual(Long.parseLong(value));
+                case "yearhighlte" -> foundOverview =
+                        overviewRepository.findByYearHighLessThanEqual(Long.parseLong(value));
+                case "yearlowgte" -> foundOverview =
+                        overviewRepository.findByYearLowGreaterThanEqual(Long.parseLong(value));
+                case "yearlowlte" -> foundOverview =
+                        overviewRepository.findByYearLowLessThanEqual(Long.parseLong(value));
             }
 
             if (foundOverview == null || foundOverview.isEmpty()) {
-                ApiError.throwError(404, field + "did not match any overview");
+                ApiError.throwError(404, field + " did not match any overview");
             }
 
             return ResponseEntity.ok(foundOverview);
@@ -322,7 +332,7 @@ public class OverviewController {
 
             List<Overview> foundOverview = null;
 
-            field = field.toLowerCase();
+            //field = field.toLowerCase();
 
             switch (field) {
                 case "id" -> foundOverview = overviewRepository.deleteById(Long.parseLong(value));
@@ -335,10 +345,20 @@ public class OverviewController {
                         overviewRepository.deleteByMarketCapGreaterThanEqual(Long.parseLong(value));
                 case "marketcaplte" -> foundOverview =
                         overviewRepository.deleteByMarketCapLessThanEqual(Long.parseLong(value));
+                case "assetType" -> foundOverview = overviewRepository.deleteByAssetType(value);
+                case "exchange" -> foundOverview = overviewRepository.deleteByExchange(value);
+                case "yearhighgte" -> foundOverview =
+                        overviewRepository.deleteByYearHighGreaterThanEqual(Long.parseLong(value));
+                case "yearhighlte" -> foundOverview =
+                        overviewRepository.deleteByYearHighLessThanEqual(Long.parseLong(value));
+                case "yearlowgte" -> foundOverview =
+                        overviewRepository.deleteByYearLowGreaterThanEqual(Long.parseLong(value));
+                case "yearlowlte" -> foundOverview =
+                        overviewRepository.deleteByYearLowLessThanEqual(Long.parseLong(value));
             }
 
             if (foundOverview == null || foundOverview.isEmpty()) {
-                ApiError.throwError(404, field + "did not match any overview");
+                ApiError.throwError(404, field + " did not match any overview");
             }
 
             return ResponseEntity.ok(foundOverview);
@@ -354,4 +374,4 @@ public class OverviewController {
     }
 
 }
-//AssetType, Exchange, 52WeekHigh, 52WeekLow, Industry, DividendDate
+//52WeekHigh, 52WeekLow, Industry, DividendDate

@@ -17,9 +17,16 @@ public interface OverviewRepository extends JpaRepository<Overview, Long> {
     List<Overview> findByName (String name);
     List<Overview> findByCurrency (String currency);
     List<Overview> findByCountry (String country);
+    List<Overview> findByAssetType (String assetType);
+    List<Overview> findByExchange (String exchange);
 
     List<Overview> findByMarketCapGreaterThanEqual (long marketCap);
     List<Overview> findByMarketCapLessThanEqual (long marketCap);
+    List<Overview> findByYearHighGreaterThanEqual (long yearHigh);
+    List<Overview> findByYearHighLessThanEqual (long yearHigh);
+    List<Overview> findByYearLowGreaterThanEqual (long yearLow);
+    List<Overview> findByYearLowLessThanEqual (long yearLow);
+
 
     List<Overview> deleteById (long id);
     List<Overview> deleteBySymbol (String symbol);
@@ -27,8 +34,14 @@ public interface OverviewRepository extends JpaRepository<Overview, Long> {
     List<Overview> deleteByName (String name);
     List<Overview> deleteByCurrency (String currency);
     List<Overview> deleteByCountry (String country);
+    List<Overview> deleteByAssetType (String assetType);
+    List<Overview> deleteByExchange (String exchange);
 
     List<Overview> deleteByMarketCapGreaterThanEqual (long marketCap);
     List<Overview> deleteByMarketCapLessThanEqual (long marketCap);
+    List<Overview> deleteByYearHighGreaterThanEqual (long yearHigh);
+    List<Overview> deleteByYearHighLessThanEqual (long yearHigh);
+    List<Overview> deleteByYearLowGreaterThanEqual (long yearLow);
+    List<Overview> deleteByYearLowLessThanEqual (long yearLow);
 
 }
