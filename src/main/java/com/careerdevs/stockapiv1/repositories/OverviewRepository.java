@@ -13,12 +13,12 @@ public interface OverviewRepository extends JpaRepository<Overview, Long> {
 
     List<Overview> findById (long id);
     List<Overview> findBySymbol (String symbol);
+    List<Overview> findByExchange (String exchange);
+    List<Overview> findByAssetType (String assetType);
     List<Overview> findBySector (String sector);
     List<Overview> findByName (String name);
     List<Overview> findByCurrency (String currency);
     List<Overview> findByCountry (String country);
-    List<Overview> findByAssetType (String assetType);
-    List<Overview> findByExchange (String exchange);
 
     List<Overview> findByMarketCapGreaterThanEqual (long marketCap);
     List<Overview> findByMarketCapLessThanEqual (long marketCap);
@@ -26,6 +26,8 @@ public interface OverviewRepository extends JpaRepository<Overview, Long> {
     List<Overview> findByYearHighLessThanEqual (long yearHigh);
     List<Overview> findByYearLowGreaterThanEqual (long yearLow);
     List<Overview> findByYearLowLessThanEqual (long yearLow);
+    List<Overview> findByDividendDateLessThanEqual(String dividendDate);
+    List<Overview> findByDividendDateGreaterThanEqual(String dividendDate);
 
 
     List<Overview> deleteById (long id);
@@ -43,5 +45,7 @@ public interface OverviewRepository extends JpaRepository<Overview, Long> {
     List<Overview> deleteByYearHighLessThanEqual (long yearHigh);
     List<Overview> deleteByYearLowGreaterThanEqual (long yearLow);
     List<Overview> deleteByYearLowLessThanEqual (long yearLow);
+    List<Overview> deleteByDividendDateLessThanEqual(String dividendDate);
+    List<Overview> deleteByDividendDateGreaterThanEqual(String dividendDate);
 
 }

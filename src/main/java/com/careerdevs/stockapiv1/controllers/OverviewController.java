@@ -289,6 +289,8 @@ public class OverviewController {
             switch (field) {
                 case "id" -> foundOverview = overviewRepository.findById(Long.parseLong(value));
                 case "symbol" -> foundOverview = overviewRepository.findBySymbol(value);
+                case "exchange" -> foundOverview = overviewRepository.findByExchange(value);
+                case "assetType" -> foundOverview = overviewRepository.findByAssetType(value);
                 case "sector" -> foundOverview = overviewRepository.findBySector(value);
                 case "name" -> foundOverview = overviewRepository.findByName(value);
                 case "currency" -> foundOverview = overviewRepository.findByCurrency(value);
@@ -297,8 +299,6 @@ public class OverviewController {
                         overviewRepository.findByMarketCapGreaterThanEqual(Long.parseLong(value));
                 case "marketcaplte" -> foundOverview =
                         overviewRepository.findByMarketCapLessThanEqual(Long.parseLong(value));
-                case "assetType" -> foundOverview = overviewRepository.findByAssetType(value);
-                case "exchange" -> foundOverview = overviewRepository.findByExchange(value);
                 case "yearhighgte" -> foundOverview =
                         overviewRepository.findByYearHighGreaterThanEqual(Long.parseLong(value));
                 case "yearhighlte" -> foundOverview =
@@ -307,6 +307,10 @@ public class OverviewController {
                         overviewRepository.findByYearLowGreaterThanEqual(Long.parseLong(value));
                 case "yearlowlte" -> foundOverview =
                         overviewRepository.findByYearLowLessThanEqual(Long.parseLong(value));
+                case "ddafter" -> foundOverview =
+                        overviewRepository.findByDividendDateGreaterThanEqual(value);
+                case "ddbefore" -> foundOverview =
+                        overviewRepository.findByDividendDateLessThanEqual(value);
             }
 
             if (foundOverview == null || foundOverview.isEmpty()) {
@@ -337,6 +341,8 @@ public class OverviewController {
             switch (field) {
                 case "id" -> foundOverview = overviewRepository.deleteById(Long.parseLong(value));
                 case "symbol" -> foundOverview = overviewRepository.deleteBySymbol(value);
+                case "exchange" -> foundOverview = overviewRepository.deleteByExchange(value);
+                case "assetType" -> foundOverview = overviewRepository.deleteByAssetType(value);
                 case "sector" -> foundOverview = overviewRepository.deleteBySector(value);
                 case "name" -> foundOverview = overviewRepository.deleteByName(value);
                 case "currency" -> foundOverview = overviewRepository.deleteByCurrency(value);
@@ -345,8 +351,6 @@ public class OverviewController {
                         overviewRepository.deleteByMarketCapGreaterThanEqual(Long.parseLong(value));
                 case "marketcaplte" -> foundOverview =
                         overviewRepository.deleteByMarketCapLessThanEqual(Long.parseLong(value));
-                case "assetType" -> foundOverview = overviewRepository.deleteByAssetType(value);
-                case "exchange" -> foundOverview = overviewRepository.deleteByExchange(value);
                 case "yearhighgte" -> foundOverview =
                         overviewRepository.deleteByYearHighGreaterThanEqual(Long.parseLong(value));
                 case "yearhighlte" -> foundOverview =
@@ -355,6 +359,10 @@ public class OverviewController {
                         overviewRepository.deleteByYearLowGreaterThanEqual(Long.parseLong(value));
                 case "yearlowlte" -> foundOverview =
                         overviewRepository.deleteByYearLowLessThanEqual(Long.parseLong(value));
+                case "ddafter" -> foundOverview =
+                        overviewRepository.deleteByDividendDateGreaterThanEqual(value);
+                case "ddbefore" -> foundOverview =
+                        overviewRepository.deleteByDividendDateLessThanEqual(value);
             }
 
             if (foundOverview == null || foundOverview.isEmpty()) {
